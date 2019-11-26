@@ -152,12 +152,16 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Command Line Alarm.cpp" />
+    <ClCompile Include="input.cpp" />
     <ClCompile Include="timer.cpp" />
     <ClCompile Include="to12hr.cpp" />
+    <ClCompile Include="validate.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="input.h" />
     <ClInclude Include="timer.h" />
     <ClInclude Include="to12hr.h" />
+    <ClInclude Include="validate.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

@@ -1,10 +1,17 @@
 #include "timer.h"
 #include <Windows.h>
-#include "to12hr.h"
 #include <string>
+#include "to12hr.h"
+#include "validate.h"
+#include "input.h"
 
 timer::timer(std::string Time, std::string SndPath) {
-	// Add classes with code to validate the time & sound path
+	validate ValidateData;
+
+	if (!ValidateData.ValidateTime(Time)) {
+		std::cout << "The provided time is not in proper 12 hour format!" << std::endl;
+		input getInput; // Basically sending the user to the beginning of the program again
+	}
 
 	SYSTEMTIME SysTime;
 	GetLocalTime(&SysTime);
