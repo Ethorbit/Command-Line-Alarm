@@ -6,7 +6,7 @@ class validate
 	public:
 		validate();
 		bool ValidateTime(std::string Time);
-		bool ValidateSound(std::string SndPath);
+		bool ValidateSound(std::wstring SndPath);
 
 		bool ValidTime() {
 			return timeIsValid;
@@ -15,8 +15,18 @@ class validate
 		bool ValidPath() {
 			return pathIsValid;
 		}
+
+		int GetHour() {
+			return savedHour;
+		}
+
+		int GetMinutes() {
+			return savedMinutes;
+		}
 	private:
 		bool timeIsValid = false;
 		bool pathIsValid = false;
+		int savedHour;
+		int savedMinutes;
 };
 

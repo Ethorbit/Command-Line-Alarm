@@ -1,5 +1,6 @@
 #include <string>
 #include "input.h"
+#include "validate.h"
 
 int main(int argc, std::string argv[])
 {

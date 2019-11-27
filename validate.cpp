@@ -30,7 +30,8 @@ bool validate::ValidateTime(std::string Time) {
 		// Convert the chars to integers and assign them:
 		hour = std::stoi(result); 
 		minute = std::stoi(result2);
-		std::cout << "The time passed in: " << hour << ":" << minute << std::endl;
+		savedHour = hour;
+		savedMinutes = minute;
 
 		// Something like 15:00 or 0:15 makes no sense in 12 hr format
 		if (hour > 12 || hour < 1) {
@@ -48,6 +49,16 @@ bool validate::ValidateTime(std::string Time) {
 	return validated;
 }
 
-bool validate::ValidateSound(std::string SndPath) {
+bool validate::ValidateSound(std::wstring SndPath) {
+	bool validated = true;
+	DWORD FileAttrib = GetFileAttributesW(SndPath.c_str());
 
+	if (FileAttrib == INVALID_FILE_ATTRIBUTES) {
+		wchar_t buffer[1000];
+		FormatMessageW(FORMAT_MESSAGE_FROM_SYSTEM, NULL, GetLastError(), LANG_NEUTRAL, buffer, sizeof(buffer) / sizeof(wchar_t), NULL);
+		std::wcout << "Error with the provided sound path! - " << buffer << std::endl;
+		validated = false;
+	} 
+
+	return validated;
 }

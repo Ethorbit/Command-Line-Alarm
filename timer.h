@@ -4,6 +4,6 @@
 class timer
 {
 	public:
-		timer(std::string Time, std::string SndPath);
+		timer(std::string Time, std::wstring SndPath);
 };
 
