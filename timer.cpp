@@ -22,8 +22,7 @@ timer::timer(std::string Time, std::wstring SndPath) {
 	int inputHour;
 	if (Time.find("PM") > 0) {
 		inputHour = ValidateData.GetHour() + 12;
-	}
-	else {
+	} else {
 		inputHour = ValidateData.GetHour();
 	}
 
@@ -37,8 +36,9 @@ timer::timer(std::string Time, std::wstring SndPath) {
 	//FormattedTime = std::to_string(convertHr.Get12Hour()) + ":" + convertHrMin + " " + convertHr.GetMeridiem();
 
 	// Set the alarm:
-	bool AlarmTriggered;
+	bool AlarmTriggered = false;
 	while (SysTime.wHour >= inputHour && SysTime.wMinute > ValidateData.GetMinutes() && !AlarmTriggered) {
-		alarm Alarm(SndPath); // The time has come, play the sound
+		alarm Alarm(Time, SndPath); // The time set has passed
+		AlarmTriggered = true;
 	}
 }

@@ -1,9 +1,10 @@
 #pragma once
 #include <iostream>
+#include <regex>
 
 class alarm
 {
 	public:
-		alarm(std::wstring SndPath);
+		alarm(std::string Time, std::wstring SndPath);
 };
 

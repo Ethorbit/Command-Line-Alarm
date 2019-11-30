@@ -30,7 +30,7 @@
     <ClCompile Include="input.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="to24hr.cpp">
+    <ClCompile Include="alarm.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -47,7 +47,7 @@
     <ClInclude Include="input.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="to24hr.h">
+    <ClInclude Include="alarm.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
