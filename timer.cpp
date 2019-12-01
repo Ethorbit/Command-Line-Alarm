@@ -37,6 +37,9 @@ timer::timer(std::string Time, std::wstring SndPath) {
 
 	// Set the alarm:
 	bool AlarmTriggered = false;
+
+	while (SysTime.wHour <= inputHour && SysTime.wMinute <= ValidateData.GetMinutes()) {
+	}
 	while (SysTime.wHour >= inputHour && SysTime.wMinute > ValidateData.GetMinutes() && !AlarmTriggered) {
 		alarm Alarm(Time, SndPath); // The time set has passed
 		AlarmTriggered = true;
