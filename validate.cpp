@@ -8,6 +8,10 @@ validate::validate() {
 
 bool validate::ValidateTime(std::string Time) {
 	bool validated = true;
+	if (Time == "now") { // For debugging purposes
+		return validated;
+	}
+
 	std::cmatch Match;
 	std::regex TimeFormat("(\\d\\d|\\d):\\d\\d\\s*(PM|AM)");
 	std::regex_match(Time.c_str(), Match, TimeFormat);
