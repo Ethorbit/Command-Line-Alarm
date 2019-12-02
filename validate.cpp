@@ -54,6 +54,13 @@ bool validate::ValidateTime(std::string Time) {
 }
 
 bool validate::ValidateSound(std::wstring SndPath) {
+	// Windows will be confused if it finds quotes in the path, so remove any:
+	for (int i = 0; i < SndPath.length(); i++) {
+		if (SndPath.at(i) == '"') {
+			SndPath.erase(i, i + 1);
+		}
+	}
+
 	bool validated = true;
 	DWORD FileAttrib = GetFileAttributesW(SndPath.c_str());
 

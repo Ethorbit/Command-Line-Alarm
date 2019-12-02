@@ -17,7 +17,12 @@ alarm::alarm(std::string Time, std::wstring SndPath):volume(600) {
 	wchar_t openCommand[400];
 	wchar_t playCommand[400];
 	wchar_t closeCommand[400];
-	wsprintfW(openCommand, L"open \"%s\" alias alarm", SndPath.c_str());
+	if (SndPath.at(0) == '"') {
+		wsprintfW(openCommand, L"open %s alias alarm", SndPath.c_str());
+	} else {
+		wsprintfW(openCommand, L"open \"%s\" alias alarm", SndPath.c_str());
+	}
+	
 	wsprintfW(playCommand, L"play alarm", SndPath.c_str());
 	wsprintfW(closeCommand, L"close alarm", SndPath.c_str());
 
@@ -70,12 +75,19 @@ alarm::alarm(std::string Time, std::wstring SndPath):volume(600) {
 	waveOutSetVolume(NULL, newVol);
 
 	// Save length of audio file:
-	wchar_t length[1000];
-	mciSendString(L"status alarm length", length, 1000, NULL);
+	wchar_t lengthstr[1000];
+	mciSendString(L"status alarm length", lengthstr, 1000, NULL);
+	int length = _wtoi(lengthstr);
+
+	// A length of 0 would cause everything to happen too fast and crash the program!
+	if (length < 1) {
+		std::cout << "ERROR: The sound file's duration must be longer than 0 seconds!" << std::endl;
+		return;
+	}
 
 	std::thread* t1 = nullptr;
 	// If sound length is more than 10 seconds then just increase volume every 10 seconds:
-	if (_wtoi(length) > 10000) {
+	if (length > 10000) {
 		t1 = new std::thread(TenSecVolume); // Use a new thread so that the next while loop can occur instantly
 	}
 
@@ -92,14 +104,14 @@ alarm::alarm(std::string Time, std::wstring SndPath):volume(600) {
 		increaseVolume
 	]() {
 		while (true) {
-			soundWait(_wtoi(length)); // Wait for the sound to be done before repeating
+			soundWait(length); // Wait for the sound to be done before repeating
 			Repeats += 1;
 			MciErr = mciSendString(closeCommand, NULL, 0, NULL);
 			MciErr = mciSendString(openCommand, NULL, 0, NULL);
 			MciErr = mciSendString(playCommand, NULL, 0, NULL);
 			handleErrors(MciErr);
 
-			if (_wtoi(length) < 10000) {
+			if (length < 10000) {
 				increaseVolume();
 			}
 
@@ -114,8 +126,12 @@ alarm::alarm(std::string Time, std::wstring SndPath):volume(600) {
 
 	// Thread #1 may already be in use, so use this one on a while loop:
 	std::thread t2(playAlarm);
+
 	// Wait for both threads to complete their tasks:
-	t1->join();
+	if (t1 != nullptr) { 
+		t1->join();
+		delete(t1);
+	}
+	
 	t2.join();
-	delete(t1);
 } 
