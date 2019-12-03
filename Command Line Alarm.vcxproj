@@ -155,7 +155,7 @@
   <ItemGroup>
     <ClCompile Include="alarm.cpp" />
     <ClCompile Include="Command Line Alarm.cpp" />
-    <ClCompile Include="hrsLeft.cpp" />
+    <ClCompile Include="timeLeft.cpp" />
     <ClCompile Include="input.cpp" />
     <ClCompile Include="timer.cpp" />
     <ClCompile Include="to12hr.cpp" />
@@ -163,7 +163,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="alarm.h" />
-    <ClInclude Include="hrsLeft.h" />
+    <ClInclude Include="timeLeft.h" />
     <ClInclude Include="input.h" />
     <ClInclude Include="timer.h" />
     <ClInclude Include="to12hr.h" />

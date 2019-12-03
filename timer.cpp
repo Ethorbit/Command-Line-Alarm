@@ -6,7 +6,7 @@
 #include "validate.h"
 #include "input.h"
 #include "alarm.h"
-#include "hrsLeft.h"
+#include "timeLeft.h"
 
 // Stall the program until it's time for the alarm:
 void timer::idle(int hours, int minutes) {
@@ -45,26 +45,8 @@ timer::timer(std::string Time, std::wstring SndPath) {
 	to12hr convertHr(SysTime.wHour);
 
 	// Set the alarm:
-	hrsLeft hrsleft(ValidateData.GetHour(), inputTimeMeridiem, convertHr.Get12Hour(), convertHr.GetMeridiem());
-	int minsLeft = abs(SysTime.wMinute - ValidateData.GetMinutes());	
-	const char* hourTxt = "hours";
-	const char* minTxt = "minutes";
-	
-	if (hrsleft.GetHoursLeft() == 1) {
-		hourTxt = "hour";
-	}
-
-	if (minsLeft == 1) {
-		minTxt = "minute";
-	} 
-
-	if (minsLeft < 1) {
-		minsLeft = 0;
-	}
-
-	char alarmTxt[150];
-	sprintf_s(alarmTxt, 150, "Alarm set for %i %s and %i %s from now", hrsleft.GetHoursLeft(), hourTxt, minsLeft, minTxt);
-	std::cout << alarmTxt << std::endl;
-	idle(hrsleft.GetHoursLeft(), minsLeft); // Wait until it's time
+	timeLeft timeleft(ValidateData.GetHour(), ValidateData.GetMinutes(), inputTimeMeridiem, convertHr.Get12Hour(), SysTime.wMinute, convertHr.GetMeridiem());
+	std::cout << timeleft.timeLeftStr() << std::endl;
+	idle(timeleft.GetHoursLeft(), timeleft.GetMinutesLeft()); // Wait until it's time
 	alarm Alarm(Time, SndPath); // The time set has passed
 }

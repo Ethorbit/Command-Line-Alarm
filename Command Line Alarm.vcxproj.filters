@@ -33,7 +33,7 @@
     <ClCompile Include="alarm.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="hrsLeft.cpp">
+    <ClCompile Include="timeLeft.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -53,7 +53,7 @@
     <ClInclude Include="alarm.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="hrsLeft.h">
+    <ClInclude Include="timeLeft.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
