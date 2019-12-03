@@ -1,11 +1,12 @@
 #include "timer.h"
 #include <Windows.h>
+#include <chrono>
 #include <string>
 #include "to12hr.h"
 #include "validate.h"
 #include "input.h"
 #include "alarm.h"
-#include <chrono>
+#include "hrsLeft.h"
 
 // Stall the program until it's time for the alarm:
 void timer::idle(int hours, int minutes) {
@@ -31,11 +32,11 @@ timer::timer(std::string Time, std::wstring SndPath) {
 		return;
 	}
 
-	int inputHour;
-	if (Time.find("PM") > 0) {
-		inputHour = ValidateData.GetHour() + 12;
+	std::string inputTimeMeridiem;
+	if (Time.rfind("PM") != std::string::npos) {
+		inputTimeMeridiem = "PM";
 	} else {
-		inputHour = ValidateData.GetHour();
+		inputTimeMeridiem = "AM";
 	}
 
 	// Get the system time:
@@ -44,12 +45,12 @@ timer::timer(std::string Time, std::wstring SndPath) {
 	to12hr convertHr(SysTime.wHour);
 
 	// Set the alarm:
-	int hoursLeft = inputHour - SysTime.wHour;
-	int minsLeft =  ValidateData.GetMinutes() - SysTime.wMinute;
-		
+	hrsLeft hrsleft(ValidateData.GetHour(), inputTimeMeridiem, convertHr.Get12Hour(), convertHr.GetMeridiem());
+	int minsLeft = abs(SysTime.wMinute - ValidateData.GetMinutes());	
 	const char* hourTxt = "hours";
 	const char* minTxt = "minutes";
-	if (hoursLeft == 1) {
+	
+	if (hrsleft.GetHoursLeft() == 1) {
 		hourTxt = "hour";
 	}
 
@@ -62,8 +63,8 @@ timer::timer(std::string Time, std::wstring SndPath) {
 	}
 
 	char alarmTxt[150];
-	sprintf_s(alarmTxt, 150, "Alarm set for %i %s and %i %s from now", hoursLeft, hourTxt, minsLeft, minTxt);
+	sprintf_s(alarmTxt, 150, "Alarm set for %i %s and %i %s from now", hrsleft.GetHoursLeft(), hourTxt, minsLeft, minTxt);
 	std::cout << alarmTxt << std::endl;
-	idle(hoursLeft, minsLeft); // Wait until it's time
+	idle(hrsleft.GetHoursLeft(), minsLeft); // Wait until it's time
 	alarm Alarm(Time, SndPath); // The time set has passed
 }

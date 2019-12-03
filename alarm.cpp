@@ -124,7 +124,7 @@ alarm::alarm(std::string Time, std::wstring SndPath):volume(600) {
 		}
 	};
 
-	// Thread #1 may already be in use, so use this one on a while loop:
+	// Main thread may already be in use, so use this one instead:
 	std::thread t2(playAlarm);
 
 	// Wait for both threads to complete their tasks:
