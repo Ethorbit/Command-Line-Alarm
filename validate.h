@@ -6,6 +6,7 @@ class validate
 	public:
 		validate();
 		bool ValidateTime(std::string Time);
+		std::string GetMeridiem(std::string Time);
 		bool ValidateSound(std::wstring SndPath);
 
 		bool ValidTime() {

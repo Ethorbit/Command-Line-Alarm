@@ -13,7 +13,7 @@ bool validate::ValidateTime(std::string Time) {
 	}
 
 	std::cmatch Match;
-	std::regex TimeFormat("(\\d\\d|\\d):\\d\\d\\s*(PM|AM)");
+	std::regex TimeFormat("(\\d\\d|\\d):\\d\\d\\s*([aA][mM]|[pP][mM])");
 	std::regex_match(Time.c_str(), Match, TimeFormat);
 
 	// If the provided string is in 12 hour format:
@@ -72,4 +72,18 @@ bool validate::ValidateSound(std::wstring SndPath) {
 	} 
 
 	return validated;
+}
+
+std::string validate::GetMeridiem(std::string Time) {
+	std::cmatch matchAM, matchPM;
+	std::regex findAM("([aA][mM])");
+	std::regex findPM("([pP][mM])");
+	std::regex_search(Time.c_str(), matchAM, findAM);
+	std::regex_search(Time.c_str(), matchPM, findPM);
+
+	if (matchAM.size() > 0) {
+		return "AM";
+	} else {
+		return "PM";
+	}
 }

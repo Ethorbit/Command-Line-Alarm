@@ -32,12 +32,9 @@ timer::timer(std::string Time, std::wstring SndPath) {
 		return;
 	}
 
-	std::string inputTimeMeridiem;
-	if (Time.rfind("PM") != std::string::npos) {
-		inputTimeMeridiem = "PM";
-	} else {
-		inputTimeMeridiem = "AM";
-	}
+	// Convert meridiem to caps (I.e AM or PM):
+	validate validation;
+	std::string inputTimeMeridiem = validation.GetMeridiem(Time);
 
 	// Get the system time:
 	SYSTEMTIME SysTime;
