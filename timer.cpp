@@ -1,5 +1,6 @@
 #include "timer.h"
 #include <Windows.h>
+#include <thread>
 #include <chrono>
 #include <string>
 #include "to12hr.h"
@@ -10,8 +11,11 @@
 
 // Stall the program until it's time for the alarm:
 void timer::idle(int hours, int minutes) {
-	auto endTime = std::chrono::system_clock::now() + std::chrono::hours(hours) + std::chrono::minutes(minutes);
-	while (std::chrono::system_clock::now() < endTime) {};
+	auto endTime = std::chrono::steady_clock::now() + std::chrono::hours(hours) + std::chrono::minutes(minutes);
+	while (std::chrono::steady_clock::now() < endTime) {
+		// Optimize program CPU usage by waiting 100ms every time:
+		std::this_thread::sleep_for(std::chrono::milliseconds(100));
+	};
 }
 
 timer::timer(std::string Time, std::wstring SndPath) {

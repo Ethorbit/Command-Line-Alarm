@@ -10,7 +10,7 @@ timeLeft::timeLeft(int targetHr, int targetMins, std::string Meridiem1, int curH
 		
 		if (curHr > 12) {
 			curHr = 1;
-			Meridiem2 = ("PM") ? "AM" : "PM";
+			Meridiem2 = (Meridiem2 == "PM") ? "AM" : "PM";
 		}
 
 		if (curHr == targetHr && curMins == targetMins && Meridiem1 == Meridiem2) {
