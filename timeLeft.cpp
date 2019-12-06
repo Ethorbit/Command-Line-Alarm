@@ -1,6 +1,8 @@
 #include "timeLeft.h"
 
 timeLeft::timeLeft(int targetHr, int targetMins, std::string Meridiem1, int curHr, int curMins, std::string Meridiem2) {
+	std::string nextMeridiem;
+
 	// Increment minutes/hours until the calculated time is equal to the destination time:
 	while (true) {
 		if (curMins > 59) {
@@ -12,8 +14,12 @@ timeLeft::timeLeft(int targetHr, int targetMins, std::string Meridiem1, int curH
 			curHr = 1;
 		}
 
-		if (curHr > 11) {
-			Meridiem2 = (Meridiem2 == "PM") ? "AM" : "PM";
+		if (curHr == 12 && curMins == 0) { 
+			if (Meridiem2 == "AM") {
+				Meridiem2 = "PM";
+			} else if (Meridiem2 == "PM") {
+				Meridiem2 = "AM";
+			}
 		}
 
 		if (curHr == targetHr && curMins == targetMins && Meridiem1 == Meridiem2) {
